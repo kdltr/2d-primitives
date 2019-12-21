@@ -645,7 +645,8 @@ SOFTWARE.
     (error "must have more than two control-points."))
   (apply list control-points))
 
-(define (%subdivide points k)
+;; FIXME
+#;(define (%subdivide points k)
   (if (<= k 0)
       points
       (let loop ((left  (list))
@@ -708,8 +709,17 @@ SOFTWARE.
 ;; Returns a list of points that make of a bezier curve.
 ;; A higher /accuracy/ results in a higher resolution
 ;; (more points).
-(define (bezier->vects bezier accuracy)
+;; FIXME doesn’t work
+#;(define (bezier->vects bezier accuracy)
   (%subdivide bezier accuracy))
+
+(define (bezier->vects b n)
+  (let ((increment (/ 1 n)))
+    (let loop ((step 0))
+      (if (>= step 1)
+          (list (bezier:ref b 1))
+          (cons (bezier:ref b step)
+                (loop (+ step increment)))))))
 
 ;;-------------------------------------------------------
 ;; %
